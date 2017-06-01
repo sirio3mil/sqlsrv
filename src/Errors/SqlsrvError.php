@@ -4,7 +4,43 @@ namespace Errors;
 class SqlsrvError
 {
 
-    public function __construct()
-    {}
+    protected $state;
+
+    protected $code;
+
+    protected $message;
+
+    public function __construct(array $error)
+    {
+        if (SqlsrvError::validate($error)) {
+            $this->code = $error['code'];
+            $this->message = $error['message'];
+            $this->state = $error['SQLSTATE'];
+        }
+    }
+
+    public function getCode(): int
+    {
+        return $this->code ? intval($this->code) : 0;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    protected static function validate(array $array)
+    {
+        if (! array_key_exists('SQLSTATE', $array)) {
+            return false;
+        }
+        if (! array_key_exists('code', $array)) {
+            return false;
+        }
+        if (! array_key_exists('message', $array)) {
+            return false;
+        }
+        return true;
+    }
 }
 

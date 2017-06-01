@@ -1,9 +1,7 @@
 <?php
-namespace Types\Scrolls;
+namespace Types;
 
-use \Types\IntegerType;
-
-class Scroll extends IntegerType
+class IntegerType extends Type
 {
 
     public function __construct(int $value)

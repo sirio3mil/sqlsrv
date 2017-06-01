@@ -4,9 +4,9 @@ namespace Types\Cursors;
 class SqlsrvCursor extends Cursor
 {
 
-    public function __construct()
+    public function __construct(int $value)
     {
-        parent::__construct();
+        parent::__construct($value);
     }
 }
 

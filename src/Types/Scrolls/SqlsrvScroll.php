@@ -1,10 +1,12 @@
 <?php
 namespace Types\Scrolls;
 
-class SqlsrvScroll
+class SqlsrvScroll extends Scroll
 {
 
-    public function __construct()
-    {}
+    public function __construct(int $value)
+    {
+        parent::__construct($value);
+    }
 }
 

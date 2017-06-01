@@ -13,6 +13,11 @@ class ConnectionOptions extends Options
         parent::__construct();
     }
 
+    public function getServerName(): string
+    {
+        return $this->serverName;
+    }
+
     public function setDatabase(string $database): ConnectionOptions
     {
         $this->options['Database'] = $database;

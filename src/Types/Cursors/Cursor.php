@@ -1,14 +1,14 @@
 <?php
 namespace Types\Cursors;
 
-use \Types\Type;
+use \Types\IntegerType;
 
-class Cursor extends Type
+class Cursor extends IntegerType
 {
 
-    public function __construct()
+    public function __construct(int $value)
     {
-        parent::__construct();
+        parent::__construct($value);
     }
 }
 

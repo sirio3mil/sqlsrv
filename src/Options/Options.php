@@ -10,5 +10,10 @@ class Options
     {
         $this->options = [];
     }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }
 
