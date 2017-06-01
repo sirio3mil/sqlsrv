@@ -4,9 +4,24 @@ namespace Sqlsrv\Errors;
 class SqlsrvErrors extends \ArrayObject
 {
 
+    protected $sql;
+
+    protected $params;
+
     public function __construct(array $array)
     {
+        $this->params = [];
         parent::__construct(SqlsrvErrors::validate($array));
+    }
+
+    public function setSql(string $sql): void
+    {
+        $this->sql = $sql;
+    }
+
+    public function setParams(array $params): void
+    {
+        $this->params = $params;
     }
 
     public function append($value): void

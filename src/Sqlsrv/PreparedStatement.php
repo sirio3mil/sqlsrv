@@ -1,13 +1,12 @@
 <?php
 namespace Sqlsrv;
 
-class Statement
+class PreparedStatement extends Statement
 {
-
-    protected $statement;
 
     public function __construct($statement)
     {
-        $this->statement = $statement;
+        parent::__construct($statement);
     }
 }
+

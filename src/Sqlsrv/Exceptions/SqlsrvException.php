@@ -1,14 +1,14 @@
 <?php
 namespace Sqlsrv\Exceptions;
 
-use Sqlsrv\Errors\SqlsrvError;
+use Sqlsrv\Errors\SqlsrvErrors;
 
 class SqlsrvException extends \Exception
 {
 
-    public function __construct(SqlsrvError $sqlsrvError)
+    public function __construct(SqlsrvErrors $sqlsrvErrors)
     {
-        parent::__construct($sqlsrvError->getMessage(), $sqlsrvError->getCode());
+        parent::__construct($sqlsrvErrors->offsetGet(0)->getMessage());
     }
 }
 
