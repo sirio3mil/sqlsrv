@@ -1,10 +1,14 @@
 <?php
 namespace Types\Scrolls;
 
-class Scroll
+use \Types\Type;
+
+class Scroll extends Type
 {
 
     public function __construct()
-    {}
+    {
+        parent::__construct();
+    }
 }
 

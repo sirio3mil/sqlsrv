@@ -1,10 +1,14 @@
 <?php
 namespace Types\Cursors;
 
-class Cursor
+use \Types\Type;
+
+class Cursor extends Type
 {
 
     public function __construct()
-    {}
+    {
+        parent::__construct();
+    }
 }
 
