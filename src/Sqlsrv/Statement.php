@@ -1,7 +1,7 @@
 <?php
-namespace Resources;
+namespace Sqlsrv;
 
-class StatementResource extends Resource
+class Statement extends Resource
 {
 
     public function __construct(resource $resource)

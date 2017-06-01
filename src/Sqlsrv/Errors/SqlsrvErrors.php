@@ -1,5 +1,5 @@
 <?php
-namespace Errors;
+namespace Sqlsrv\Errors;
 
 class SqlsrvErrors extends \ArrayObject
 {

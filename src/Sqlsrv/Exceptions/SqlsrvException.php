@@ -1,7 +1,7 @@
 <?php
-namespace Exceptions;
+namespace Sqlsrv\Exceptions;
 
-use Errors\SqlsrvError;
+use Sqlsrv\Errors\SqlsrvError;
 
 class SqlsrvException extends \Exception
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Resources;
+namespace Sqlsrv;
 
 class Resource
 {

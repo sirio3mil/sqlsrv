@@ -1,7 +1,9 @@
 <?php
-namespace Types\Scrolls;
+namespace Sqlsrv\Types\Scrolls;
 
-class SqlsrvScroll extends Scroll
+use Sqlsrv\Types\IntegerType;
+
+class Scroll extends IntegerType
 {
 
     public function __construct(int $value)

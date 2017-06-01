@@ -1,9 +1,7 @@
 <?php
-namespace Types\Scrolls;
+namespace Sqlsrv\Types\Cursors;
 
-use \Types\IntegerType;
-
-class Scroll extends IntegerType
+class SqlsrvCursor extends Cursor
 {
 
     public function __construct(int $value)

@@ -1,5 +1,5 @@
 <?php
-namespace Options;
+namespace Sqlsrv\Options;
 
 // TODO validate all possible options https://docs.microsoft.com/en-us/sql/connect/php/connection-options
 class ConnectionOptions extends Options

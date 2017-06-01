@@ -1,5 +1,5 @@
 <?php
-namespace Types;
+namespace Sqlsrv\Types;
 
 class Type
 {

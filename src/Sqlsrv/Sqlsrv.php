@@ -1,15 +1,14 @@
 <?php
-namespace Base;
+namespace Sqlsrv;
 
-use Errors\SqlsrvErrors;
-use Resources\ConnectionResource;
-use Options\SqlsrvConnectionOptions;
-use Exceptions\SqlsrvException;
+use Sqlsrv\Errors\SqlsrvErrors;
+use Sqlsrv\Options\SqlsrvConnectionOptions;
+use Sqlsrv\Exceptions\SqlsrvException;
 
 class Sqlsrv
 {
 
-    protected $connectionResource;
+    protected $connection;
 
     protected $sqlsrvConnectionOptions;
 
@@ -23,10 +22,8 @@ class Sqlsrv
 
     public function connect(): Sqlsrv
     {
-        $conn = sqlsrv_connect($this->sqlsrvConnectionOptions->getServerName(), $this->sqlsrvConnectionOptions->getOptions());
-        if ($conn) {
-            $this->connectionResource = new ConnectionResource($conn);
-        } else {
+        $this->connection = sqlsrv_connect($this->sqlsrvConnectionOptions->getServerName(), $this->sqlsrvConnectionOptions->getOptions());
+        if (! $this->connection) {
             $this->setErrors();
             $this->reportError();
         }

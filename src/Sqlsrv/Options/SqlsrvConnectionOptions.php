@@ -1,5 +1,5 @@
 <?php
-namespace Options;
+namespace Sqlsrv\Options;
 
 class SqlsrvConnectionOptions extends ConnectionOptions
 {

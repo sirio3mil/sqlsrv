@@ -1,9 +1,7 @@
 <?php
-namespace Types\Cursors;
+namespace Sqlsrv\Types;
 
-use \Types\IntegerType;
-
-class Cursor extends IntegerType
+class IntegerType extends Type
 {
 
     public function __construct(int $value)
