@@ -2,7 +2,6 @@
 namespace Sqlsrv;
 
 use Sqlsrv\Errors\SqlsrvErrors;
-use Sqlsrv\Exceptions\SqlsrvException;
 
 class Connection
 {
@@ -16,19 +15,9 @@ class Connection
         $this->sqlsrvErrors = new SqlsrvErrors();
     }
 
-    protected function setErrors(string $sql = "", array $params = []): void
+    public function errors(): SqlsrvErrors
     {
-        $this->sqlsrvErrors->setErrors()
-            ->setSql($sql)
-            ->setParams($params);
-    }
-
-    protected function logErrors(): void
-    {}
-
-    protected function reportError()
-    {
-        throw new SqlsrvException($this->sqlsrvErrors);
+        return $this->sqlsrvErrors->setErrors();
     }
 }
 

@@ -36,7 +36,7 @@ class SqlsrvErrors extends \ArrayObject
     {
         if (is_array($value) && SqlsrvError::validate($value)) {
             $sqlsrvError = new SqlsrvError($value);
-            if ($sqlsrvError->getCode()) {
+            if ($sqlsrvError->isValid()) {
                 parent::append($sqlsrvError);
             }
         }
@@ -44,14 +44,7 @@ class SqlsrvErrors extends \ArrayObject
 
     public function exchangeArray($input)
     {
-        $errors = [];
-        foreach ($input as $error) {
-            $sqlsrvError = new SqlsrvError($error);
-            if ($sqlsrvError->getCode()) {
-                $errors[] = $sqlsrvError;
-            }
-        }
-        return parent::exchangeArray($errors);
+        return parent::exchangeArray(SqlsrvErrors::validate($input));
     }
 
     protected static function validate(array $array): array
@@ -59,7 +52,7 @@ class SqlsrvErrors extends \ArrayObject
         $errors = [];
         foreach ($array as $error) {
             $sqlsrvError = new SqlsrvError($error);
-            if ($sqlsrvError->getCode()) {
+            if ($sqlsrvError->isValid()) {
                 $errors[] = $sqlsrvError;
             }
         }

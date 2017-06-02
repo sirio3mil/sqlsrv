@@ -19,6 +19,14 @@ class SqlsrvError
         }
     }
 
+    public function isValid(): bool
+    {
+        if ($this->getCode()) {
+            return true;
+        }
+        return false;
+    }
+
     public function getCode(): int
     {
         return $this->code ? intval($this->code) : 0;
