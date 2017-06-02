@@ -57,6 +57,9 @@ class Sqlsrv extends Connection
         if (! $this->resource) {
             return false;
         }
+        if (! $this->transactions) {
+            return false;
+        }
         $this->transactions = 0;
         return sqlsrv_rollback($this->resource);
     }
