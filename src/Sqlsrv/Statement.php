@@ -1,39 +1,66 @@
 <?php
 namespace Sqlsrv;
 
-class Statement
+use Sqlsrv\Properties\FetchProperties;
+use Sqlsrv\Properties\FetchArrayProperties;
+use Sqlsrv\Properties\FetchObjectProperties;
+
+class Statement extends Connection
 {
 
-    protected $statement;
-
-    public function __construct($statement)
+    public function __construct($resource)
     {
-        $this->statement = $statement;
+        $this->resource = $resource;
+        parent::__construct();
     }
 
-    public function fetch_array(int $fetchType = SQLSRV_FETCH_ASSOC, int $row = SQLSRV_SCROLL_RELATIVE, int $offset = 0)
+    public function fetch_array(FetchArrayProperties $fetchArrayProperties = new FetchArrayProperties()): ?array
     {
-        if (! $this->statement) {
+        if (! $this->resource) {
             return null;
         }
-        return sqlsrv_fetch_array($this->statement, $fetchType, $row, $offset);
-    }
-
-    public function fetch_object(string $className = "stdClass", array $ctorParams = [], int $row = SQLSRV_SCROLL_RELATIVE, int $offset = 0)
-    {
-        if (! $this->statement) {
+        $result = sqlsrv_fetch_array($this->resource, $fetchArrayProperties->getFetchType()->getValue(), $fetchArrayProperties->getRowScroll()->getValue(), $fetchArrayProperties->getOffset());
+        if ($result === false) {
+            $this->setErrors();
+            $this->logErrors();
+            $this->reportError();
             return null;
         }
-        return sqlsrv_fetch_object($this->statement, $className, $ctorParams, $row, $offset);
+        return $result;
     }
 
-    public function fetch(int $row = SQLSRV_SCROLL_RELATIVE, int $offset = 0): ?bool
+    public function fetch_object(FetchObjectProperties $fetchObjectProperties = new FetchObjectProperties()): ?callable
     {
-        return sqlsrv_fetch($this->statement, $row, $offset);
+        if (! $this->resource) {
+            return null;
+        }
+        $result = sqlsrv_fetch_object($this->resource, $fetchObjectProperties->getClassName(), $fetchObjectProperties->getConstructorParams(), $fetchObjectProperties->getRowScroll()->getValue(), $fetchObjectProperties->getOffset());
+        if ($result === false) {
+            $this->setErrors();
+            $this->logErrors();
+            $this->reportError();
+            return null;
+        }
+        return $result;
+    }
+
+    public function fetch(FetchProperties $fetchProperties = new FetchProperties()): bool
+    {
+        if (! $this->resource) {
+            return false;
+        }
+        $result = sqlsrv_fetch($this->resource, $fetchProperties->getRowScroll()->getValue(), $fetchProperties->getOffset());
+        if ($result === false) {
+            $this->setErrors();
+            $this->logErrors();
+            $this->reportError();
+            return false;
+        }
+        return $result;
     }
 
     public function free(): bool
     {
-        return sqlsrv_free_stmt($this->statement);
+        return sqlsrv_free_stmt($this->resource);
     }
 }

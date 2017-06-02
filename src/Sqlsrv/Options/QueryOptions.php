@@ -1,7 +1,7 @@
 <?php
 namespace Sqlsrv\Options;
 
-use Sqlsrv\Types\Cursors\SqlsrvCursor;
+use Sqlsrv\Types\Cursors\CursorType;
 
 class QueryOptions extends Options
 {
@@ -23,7 +23,7 @@ class QueryOptions extends Options
         return $this;
     }
 
-    public function setScrollable(SqlsrvCursor $sqlsrvCursor): QueryOptions
+    public function setScrollable(CursorType $sqlsrvCursor): QueryOptions
     {
         $this->options['Scrollable'] = $sqlsrvCursor->getValue();
         return $this;

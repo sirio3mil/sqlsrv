@@ -1,15 +1,11 @@
 <?php
 namespace Sqlsrv;
 
-use Sqlsrv\Errors\SqlsrvErrors;
 use Sqlsrv\Options\SqlsrvConnectionOptions;
-use Sqlsrv\Exceptions\SqlsrvException;
 use Sqlsrv\Options\QueryOptions;
 
-class Sqlsrv
+class Sqlsrv extends Connection
 {
-
-    protected $connection;
 
     protected $transactions;
 
@@ -20,15 +16,15 @@ class Sqlsrv
     public function __construct(SqlsrvConnectionOptions $sqlsrvConnectionOptions)
     {
         $this->sqlsrvConnectionOptions = $sqlsrvConnectionOptions;
-        $this->sqlsrvErrors = new SqlsrvErrors();
         $this->transactions = 0;
         $this->params = [];
+        parent::__construct();
     }
 
     public function connect(): bool
     {
-        $this->connection = sqlsrv_connect($this->sqlsrvConnectionOptions->getServerName(), $this->sqlsrvConnectionOptions->getOptions());
-        if (! $this->connection) {
+        $this->resource = sqlsrv_connect($this->sqlsrvConnectionOptions->getServerName(), $this->sqlsrvConnectionOptions->getOptions());
+        if (! $this->resource) {
             $this->setErrors();
             $this->logErrors();
             $this->reportError();
@@ -39,10 +35,10 @@ class Sqlsrv
 
     public function begin_transaction(): bool
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return false;
         }
-        if (! $this->transactions && ! sqlsrv_begin_transaction($this->connection)) {
+        if (! $this->transactions && ! sqlsrv_begin_transaction($this->resource)) {
             $this->setErrors();
             $this->logErrors();
             $this->reportError();
@@ -54,10 +50,10 @@ class Sqlsrv
 
     public function commit(): bool
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return false;
         }
-        if ($this->transactions === 1 && ! sqlsrv_commit($this->connection)) {
+        if ($this->transactions === 1 && ! sqlsrv_commit($this->resource)) {
             $this->setErrors();
             $this->logErrors();
             $this->reportError();
@@ -69,10 +65,10 @@ class Sqlsrv
 
     public function rollback(): bool
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return false;
         }
-        if ($this->transactions && ! sqlsrv_rollback($this->connection)) {
+        if ($this->transactions && ! sqlsrv_rollback($this->resource)) {
             $this->setErrors();
             $this->logErrors();
             $this->reportError();
@@ -84,14 +80,14 @@ class Sqlsrv
 
     public function close(): bool
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return false;
         }
         if ($this->transactions) {
             $this->transactions = 1;
             $this->commit();
         }
-        if (! sqlsrv_close($this->connection)) {
+        if (! sqlsrv_close($this->resource)) {
             $this->setErrors();
             $this->logErrors();
             $this->reportError();
@@ -102,10 +98,10 @@ class Sqlsrv
 
     public function prepare(string $sql, array $params = [], QueryOptions $queryOptions = new QueryOptions()): ?PreparedStatement
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return null;
         }
-        if (! $statement = sqlsrv_prepare($this->connection, $sql, $params, $queryOptions->getOptions())) {
+        if (! $statement = sqlsrv_prepare($this->resource, $sql, $params, $queryOptions->getOptions())) {
             $this->rollback();
             $this->setErrors($sql, $params);
             $this->logErrors();
@@ -117,10 +113,10 @@ class Sqlsrv
 
     public function query(string $sql, array $params = [], QueryOptions $queryOptions = new QueryOptions()): ?Statement
     {
-        if (! $this->connection) {
+        if (! $this->resource) {
             return null;
         }
-        if (! $statement = sqlsrv_query($this->connection, $sql, $params, $queryOptions->getOptions())) {
+        if (! $statement = sqlsrv_query($this->resource, $sql, $params, $queryOptions->getOptions())) {
             $this->rollback();
             $this->setErrors($sql, $params);
             $this->logErrors();
@@ -128,21 +124,6 @@ class Sqlsrv
             return null;
         }
         return new Statement($statement);
-    }
-
-    protected function setErrors(string $sql = "", array $params = []): void
-    {
-        $this->sqlsrvErrors->exchangeArray(sqlsrv_errors());
-        $this->sqlsrvErrors->setSql($sql);
-        $this->sqlsrvErrors->setParams($params);
-    }
-
-    protected function logErrors(): void
-    {}
-
-    protected function reportError()
-    {
-        throw new SqlsrvException($this->sqlsrvErrors);
     }
 }
 

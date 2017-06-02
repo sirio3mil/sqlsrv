@@ -1,7 +1,9 @@
 <?php
-namespace Sqlsrv\Types\Cursors;
+namespace Sqlsrv\Types\RowScrolls;
 
-class SqlsrvCursor extends Cursor
+use Sqlsrv\Types\IntegerType;
+
+class RowScrollType extends IntegerType
 {
 
     public function __construct(int $value)

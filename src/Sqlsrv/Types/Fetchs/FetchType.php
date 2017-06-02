@@ -1,9 +1,9 @@
 <?php
-namespace Sqlsrv\Types\Cursors;
+namespace Sqlsrv\Types\Fetchs;
 
 use Sqlsrv\Types\IntegerType;
 
-class Cursor extends IntegerType
+class FetchType extends IntegerType
 {
 
     public function __construct(int $value)

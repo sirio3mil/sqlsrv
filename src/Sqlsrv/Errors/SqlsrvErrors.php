@@ -8,20 +8,28 @@ class SqlsrvErrors extends \ArrayObject
 
     protected $params;
 
-    public function __construct(array $array)
+    public function __construct(array $array = [])
     {
         $this->params = [];
         parent::__construct(SqlsrvErrors::validate($array));
     }
 
-    public function setSql(string $sql): void
+    public function setSql(string $sql): SqlsrvErrors
     {
         $this->sql = $sql;
+        return $this;
     }
 
-    public function setParams(array $params): void
+    public function setParams(array $params): SqlsrvErrors
     {
         $this->params = $params;
+        return $this;
+    }
+
+    public function setErrors(): SqlsrvErrors
+    {
+        $this->exchangeArray(sqlsrv_errors());
+        return $this;
     }
 
     public function append($value): void
