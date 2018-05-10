@@ -1,0 +1,13 @@
+{
+  "name": "sirio3mil/sqlsrv",
+  "description": "SQL Server object oriented interface for PHP",
+  "type": "library",
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "src\\": ""
+    }
+  }
+}
