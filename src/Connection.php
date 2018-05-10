@@ -8,6 +8,7 @@ class Connection
 
     protected $resource;
 
+    /** @var SqlsrvErrors $sqlsrvErrors */
     protected $sqlsrvErrors;
 
     public function __construct()
@@ -15,9 +16,15 @@ class Connection
         $this->sqlsrvErrors = new SqlsrvErrors();
     }
 
-    public function setErrors(): SqlsrvErrors
+    public function setErrors(): Connection
     {
-        return $this->sqlsrvErrors->setErrors();
+        $this->sqlsrvErrors->setErrors();
+        return $this;
+    }
+
+    public function getErrors(): SqlsrvErrors
+    {
+        return $this->sqlsrvErrors;
     }
 }
 
