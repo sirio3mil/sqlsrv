@@ -14,26 +14,35 @@ class Statement extends Connection
         parent::__construct();
     }
 
-    public function fetch_array(FetchArrayProperties $fetchArrayProperties = new FetchArrayProperties())
+    public function fetch_array(FetchArrayProperties $fetchArrayProperties = null)
     {
         if (! $this->resource) {
             return null;
+        }
+        if(!$fetchArrayProperties){
+            $fetchArrayProperties = new FetchArrayProperties();
         }
         return sqlsrv_fetch_array($this->resource, $fetchArrayProperties->getFetchType()->getValue(), $fetchArrayProperties->getRowScroll()->getValue(), $fetchArrayProperties->getOffset());
     }
 
-    public function fetch_object(FetchObjectProperties $fetchObjectProperties = new FetchObjectProperties())
+    public function fetch_object(FetchObjectProperties $fetchObjectProperties = null)
     {
         if (! $this->resource) {
             return null;
         }
+        if(!$fetchObjectProperties){
+            $fetchObjectProperties = new FetchObjectProperties();
+        }
         return sqlsrv_fetch_object($this->resource, $fetchObjectProperties->getClassName(), $fetchObjectProperties->getConstructorParams(), $fetchObjectProperties->getRowScroll()->getValue(), $fetchObjectProperties->getOffset());
     }
 
-    public function fetch(FetchProperties $fetchProperties = new FetchProperties()): ?bool
+    public function fetch(FetchProperties $fetchProperties = null): ?bool
     {
         if (! $this->resource) {
             return false;
+        }
+        if(!$fetchProperties){
+            $fetchProperties = new FetchProperties();
         }
         return sqlsrv_fetch($this->resource, $fetchProperties->getRowScroll()->getValue(), $fetchProperties->getOffset());
     }
