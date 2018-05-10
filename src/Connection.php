@@ -15,7 +15,7 @@ class Connection
         $this->sqlsrvErrors = new SqlsrvErrors();
     }
 
-    public function errors(): SqlsrvErrors
+    public function setErrors(): SqlsrvErrors
     {
         return $this->sqlsrvErrors->setErrors();
     }

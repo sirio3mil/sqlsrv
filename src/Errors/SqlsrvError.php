@@ -37,7 +37,7 @@ class SqlsrvError
         return $this->message;
     }
 
-    protected static function validate(array $array)
+    public static function validate(array $array)
     {
         if (! array_key_exists('SQLSTATE', $array)) {
             return false;

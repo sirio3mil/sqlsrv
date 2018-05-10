@@ -23,6 +23,7 @@ class Sqlsrv extends Connection
     {
         $this->resource = sqlsrv_connect($this->sqlsrvConnectionOptions->getServerName(), $this->sqlsrvConnectionOptions->getOptions());
         if (! $this->resource) {
+            $this->setErrors();
             return false;
         }
         return true;
