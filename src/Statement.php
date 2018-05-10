@@ -1,4 +1,5 @@
 <?php
+
 namespace Sqlsrv;
 
 use Sqlsrv\Properties\FetchProperties;
@@ -16,35 +17,46 @@ class Statement extends Connection
 
     public function fetch_array(FetchArrayProperties $fetchArrayProperties = null)
     {
-        if (! $this->resource) {
+        if (!$this->resource) {
             return null;
         }
-        if(!$fetchArrayProperties){
+        if (!$fetchArrayProperties) {
             $fetchArrayProperties = new FetchArrayProperties();
         }
-        return sqlsrv_fetch_array($this->resource, $fetchArrayProperties->getFetchType()->getValue(), $fetchArrayProperties->getRowScroll()->getValue(), $fetchArrayProperties->getOffset());
+        if ($fetchArrayProperties->getRowScroll()->getValue()) {
+            return sqlsrv_fetch_array($this->resource, $fetchArrayProperties->getFetchType()->getValue(),
+                $fetchArrayProperties->getRowScroll()->getValue(), $fetchArrayProperties->getOffset());
+        }
+        return sqlsrv_fetch_array($this->resource, $fetchArrayProperties->getFetchType()->getValue());
     }
 
     public function fetch_object(FetchObjectProperties $fetchObjectProperties = null)
     {
-        if (! $this->resource) {
+        if (!$this->resource) {
             return null;
         }
-        if(!$fetchObjectProperties){
+        if (!$fetchObjectProperties) {
             $fetchObjectProperties = new FetchObjectProperties();
         }
-        return sqlsrv_fetch_object($this->resource, $fetchObjectProperties->getClassName(), $fetchObjectProperties->getConstructorParams(), $fetchObjectProperties->getRowScroll()->getValue(), $fetchObjectProperties->getOffset());
+        if ($fetchObjectProperties->getRowScroll()->getValue()) {
+            return sqlsrv_fetch_object($this->resource, $fetchObjectProperties->getClassName(),
+                $fetchObjectProperties->getConstructorParams(), $fetchObjectProperties->getRowScroll()->getValue(),
+                $fetchObjectProperties->getOffset());
+        }
+        return sqlsrv_fetch_object($this->resource, $fetchObjectProperties->getClassName(),
+            $fetchObjectProperties->getConstructorParams());
     }
 
     public function fetch(FetchProperties $fetchProperties = null): ?bool
     {
-        if (! $this->resource) {
+        if (!$this->resource) {
             return false;
         }
-        if(!$fetchProperties){
+        if (!$fetchProperties) {
             $fetchProperties = new FetchProperties();
         }
-        return sqlsrv_fetch($this->resource, $fetchProperties->getRowScroll()->getValue(), $fetchProperties->getOffset());
+        return sqlsrv_fetch($this->resource, $fetchProperties->getRowScroll()->getValue(),
+            $fetchProperties->getOffset());
     }
 
     public function free(): bool

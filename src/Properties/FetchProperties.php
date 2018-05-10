@@ -1,4 +1,5 @@
 <?php
+
 namespace Sqlsrv\Properties;
 
 use Sqlsrv\Types\RowScrolls\RowScrollType;

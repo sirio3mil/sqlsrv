@@ -1,4 +1,5 @@
 <?php
+
 namespace Sqlsrv;
 
 use Sqlsrv\Errors\SqlsrvErrors;
