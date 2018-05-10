@@ -79,10 +79,13 @@ class Sqlsrv extends Connection
         return true;
     }
 
-    public function prepare(string $sql, array $params = [], QueryOptions $queryOptions = new QueryOptions()): ?PreparedStatement
+    public function prepare(string $sql, array $params = [], QueryOptions $queryOptions = null): ?PreparedStatement
     {
         if (! $this->resource) {
             return null;
+        }
+        if(!$queryOptions){
+            $queryOptions = new QueryOptions();
         }
         if (! $statement = sqlsrv_prepare($this->resource, $sql, $params, $queryOptions->getOptions())) {
             $this->rollback();
@@ -91,10 +94,13 @@ class Sqlsrv extends Connection
         return new PreparedStatement($statement);
     }
 
-    public function query(string $sql, array $params = [], QueryOptions $queryOptions = new QueryOptions()): ?Statement
+    public function query(string $sql, array $params = [], QueryOptions $queryOptions = null): ?Statement
     {
         if (! $this->resource) {
             return null;
+        }
+        if(!$queryOptions){
+            $queryOptions = new QueryOptions();
         }
         if (! $statement = sqlsrv_query($this->resource, $sql, $params, $queryOptions->getOptions())) {
             $this->rollback();
