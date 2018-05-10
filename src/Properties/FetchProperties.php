@@ -2,7 +2,7 @@
 namespace Sqlsrv\Properties;
 
 use Sqlsrv\Types\RowScrolls\RowScrollType;
-use Sqlsrv\Types\RowScrolls\RowScrollTypeRelative;
+use Sqlsrv\Types\RowScrolls\RowScrollsTypeDefault;
 
 class FetchProperties
 {
