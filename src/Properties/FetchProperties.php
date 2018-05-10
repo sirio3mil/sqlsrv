@@ -13,8 +13,8 @@ class FetchProperties
 
     public function __construct()
     {
-        $this->rowScroll = new RowScrollTypeRelative();
-        $this->offset = 0;
+        $this->rowScroll = new RowScrollsTypeDefault();
+        $this->offset = null;
     }
 
     public function setRowScroll(RowScrollType $rowScroll): FetchProperties
@@ -34,7 +34,7 @@ class FetchProperties
         return $this->rowScroll;
     }
 
-    public function getOffset(): int
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
