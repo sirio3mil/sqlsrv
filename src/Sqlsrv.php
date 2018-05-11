@@ -90,6 +90,7 @@ class Sqlsrv extends Connection
             $queryOptions = new QueryOptions();
         }
         if (!$statement = sqlsrv_prepare($this->resource, $sql, $params, $queryOptions->getOptions())) {
+            $this->setErrors();
             $this->rollback();
             return null;
         }
@@ -105,6 +106,7 @@ class Sqlsrv extends Connection
             $queryOptions = new QueryOptions();
         }
         if (!$statement = sqlsrv_query($this->resource, $sql, $params, $queryOptions->getOptions())) {
+            $this->setErrors();
             $this->rollback();
             return null;
         }

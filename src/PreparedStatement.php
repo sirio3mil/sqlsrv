@@ -1,4 +1,5 @@
 <?php
+
 namespace Sqlsrv;
 
 class PreparedStatement extends Statement
@@ -11,12 +12,20 @@ class PreparedStatement extends Statement
 
     public function cancel(): bool
     {
-        return sqlsrv_cancel($this->resource);
+        if (!sqlsrv_cancel($this->resource)) {
+            $this->setErrors();
+            return false;
+        }
+        return true;
     }
 
     public function execute(): bool
     {
-        return sqlsrv_execute($this->resource);
+        if (!sqlsrv_execute($this->resource)) {
+            $this->setErrors();
+            return false;
+        }
+        return true;
     }
 }
 
