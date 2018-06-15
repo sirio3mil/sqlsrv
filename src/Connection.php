@@ -27,5 +27,13 @@ class Connection
     {
         return $this->sqlsrvErrors;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
 }
 
