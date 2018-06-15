@@ -53,7 +53,7 @@ class Statement extends Connection
             return false;
         }
         if (!$fetchProperties) {
-            $fetchProperties = new FetchProperties();
+            return sqlsrv_fetch($this->resource);
         }
         return sqlsrv_fetch($this->resource, $fetchProperties->getRowScroll()->getValue(),
             $fetchProperties->getOffset());
@@ -66,6 +66,9 @@ class Statement extends Connection
 
     public function get_field(int $fieldIndex, int $getAsType = null)
     {
+        if(is_null($getAsType)){
+            return sqlsrv_get_field($this->resource, $fieldIndex);
+        }
         return sqlsrv_get_field($this->resource, $fieldIndex, $getAsType);
     }
 
