@@ -35,5 +35,11 @@ class ConnectionOptions extends Options
         $this->options['LoginTimeout'] = ($loginTimeout < 0) ? 0 : $loginTimeout;
         return $this;
     }
+
+    public function setTransactionIsolation(int $transactionIsolation = SQLSRV_TXN_READ_COMMITTED): ConnectionOptions
+    {
+        $this->options['TransactionIsolation'] = $transactionIsolation;
+        return $this;
+    }
 }
 
