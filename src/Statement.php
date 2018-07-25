@@ -72,6 +72,11 @@ class Statement extends Connection
         return sqlsrv_get_field($this->resource, $fieldIndex, $getAsType);
     }
 
+    public function field_metadata()
+    {
+        return sqlsrv_field_metadata($this->resource);
+    }
+
     public function has_rows(): bool
     {
         return sqlsrv_has_rows($this->resource);
