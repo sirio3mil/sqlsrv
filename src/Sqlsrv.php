@@ -71,6 +71,9 @@ class Sqlsrv extends Connection
         if (!$this->resource) {
             return false;
         }
+        if (!is_resource($this->resource)) {
+            return false;
+        }
         if ($this->transactions) {
             $this->transactions = 1;
             $this->commit();

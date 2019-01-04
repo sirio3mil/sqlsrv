@@ -61,12 +61,15 @@ class Statement extends Connection
 
     public function free(): bool
     {
-        return sqlsrv_free_stmt($this->resource);
+        if ($this->resource && is_resource($this->resource)) {
+            return sqlsrv_free_stmt($this->resource);
+        }
+        return false;
     }
 
     public function get_field(int $fieldIndex, int $getAsType = null)
     {
-        if(is_null($getAsType)){
+        if (is_null($getAsType)) {
             return sqlsrv_get_field($this->resource, $fieldIndex);
         }
         return sqlsrv_get_field($this->resource, $fieldIndex, $getAsType);
